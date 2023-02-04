@@ -3,38 +3,46 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Quiz Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
     <meta name="description" content="Quiz Game with Flask">
   </head>
   <body>
-    <h2>QUESTION {{numbers}} </h2>
-    
-    <p>{{questions[numbers]}}</p>
+    <div class='entire'>
+      <div class='heads'>
+        <h1>QUESTION {{numbers}} </h1>
+      </div>
 
-    <form action ="#" method = "post" id = "page">
+      <div id="question">
+        <h1>{{questions[numbers]}}</h1>
+      </div>
 
-    {%for numbers in options[numbers]%}
-      <input type="radio" id="red" name="options" value="{{numbers}}">
-      <label for="red">{{numbers}}</label>
-    {%endfor%}
+      <div class='options'>
+        <form action ="#" method = "post" id = "page">
 
-      <input type = "submit" name = "submit">
-      
-    </form>
+        {%for numbers in options[numbers]%}
+          <input type="radio" id="red" name="options" value="{{numbers}}">
+          <label for="red">{{numbers}}</label><br>
+        {%endfor%}
 
-    {%if numbers > 1%}
-    <a href='/questions/{{numbers - 1}}'><button class="startbutton" id='startbutton'>previous</button></a>
+          <input type = "submit" name = "submit" id="startbutton" class="startbutton1">
+          
+        </form>
+      </div>
+      <div>
+        {%if numbers > 1%}
+        <a href='/questions/{{numbers - 1}}'><button class="startbutton2" id='startbutton'>previous</button></a>
 
-    {%endif%}
+        {%endif%}
 
-    {%if numbers < questions|length%}
+        {%if numbers < questions|length%}
 
-      <a href='/questions/{{numbers + 1}}'><button class="startbutton" id='startbutton' onclick = "submitForm()">next</button></a>
-    {%else%}
-    <a href='/questions/results'><button class="startbutton" id='startbutton' onclick = "submitForm()">submit</button></a>
+          <a href='/questions/{{numbers + 1}}'><button class="startbutton3" id='startbutton' onclick = "submitForm()">next</button></a>
+        {%else%}
+          <a href='/questions/results'><button class="startbutton4" id='startbutton' onclick = "submitForm()">submit</button></a>
 
-    {%endif%}
-   
-
+        {%endif%}
+      <div>
+    </div>
     <!-- Remove this comment and replace it with your code -->
 
   </body>

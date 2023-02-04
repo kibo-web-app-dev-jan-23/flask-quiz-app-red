@@ -1,0 +1,28 @@
+html, body {
+padding: 0;
+margin: 0;
+background-image: linear-gradient(to right, #424489, #e3b5b5);
+border-style: dashed;
+  }
+
+
+h1{
+    font-size: 4em;
+    padding: 10px;
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    border-style: dotted;
+}
+
+
+
+/*---------debug-log -------------*/
+
+/* background-color: #424489; */
+    /* margin-block-start: 20%;
+    margin-block-end: 20%; */
+    /* max-width: 0; */
