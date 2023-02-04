@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request , redirect
 
 app = Flask(__name__)
 
 score = 0
+answers=[]
 questions = {
   1: "what is my name",
   2: "What colour were the pills Neo had to choose from in The Matrix?",
@@ -19,7 +20,21 @@ questions = {
   11: "What was the name of Michael B. Jordan’s character in Black Panther?",
   12: "Which actress starred in Bridget Jones’ Diary?"
 }
-options = {1: ["Samuel", "Mercy", "Ayo", "Blessing"]}
+options = {
+  1: ["Samuel", "Mercy", "Ayo", "Blessing"],
+  2: ["Red and blue", "green and black", "white and blue", "red and white"],
+  3: ["Little China", "Big China", "Little Tokyo", "Big Tokyo"],
+  4: ["Madagascar","Seychelles","Algeria","Morocco"],
+  5: ["Emma Stone","Megan Fox", "Jennifer Lawrence", "Jennifer Aniston"],
+  6: ["Buck", "John", "Chris", "Don"],
+  7: ["Tokyo","Beijing","Brusells","London"],
+  8: ["Commando","The Matrix", "The God Father", "The Good, the Bad and the Ugly"],
+  9: ["Stanley Kubrick",],
+
+  10: ["Jamie Foxx", "Kevin Hart", "Eddie Murphy", "Will Smith"],
+  11: ["N'Jadaka","T'Challa","M'Baku","Eric Steven" ],
+  12: ["Renee Zellweger","Bridget Jones","Scarlett Johannson","Elizabeth Olsen"]
+}
 correct_answers = {
   1: "Samuel",
   2: "Red and blue",
@@ -35,32 +50,35 @@ correct_answers = {
   12: "Renee Zellweger"
 }
 
+def correct_answer(user_answer, correct_ans):
+  global score
+  if match(user_answer, correct_ans):
+    score += 1
+
+
+def match(user_answer, correct_ans):
+  if user_answer == correct_ans:
+    return True
+  else:
+    return False
 
 @app.get("/")
 def index():
   return render_template("index.html")
 
 
-@app.get("/quiz/<numbers>")
-def quiz_game(number):
-  return render_template("quiz.html",
-                         questions=questions,
-                         number=number,
-                         options=options)
+@app.route("/questions/<int:numbers>", methods = ["GET","POST"])
+def quiz_game(numbers):
+  
+  if request.method == "POST" :
+    user_answer = request.form["options"]
+    correct_answer(user_answer, correct_answers[numbers])
+    
+  return render_template("question.html",questions=questions,numbers=numbers,options=options)
+  
+  
 
-
-@app.get("/quiz/results")
+@app.get("/questions/results")
 def results():
-  return render_template("results.html", score=score)
-
-
-def correct_answers(score):
-  if match():
-    score += 1
-
-
-def match(user_answer, correct_answer):
-  if user_answer == correct_answer:
-    return True
-  else:
-    return False
+  global score
+  return render_template("result.html", score=score, answers= answers)

@@ -6,18 +6,34 @@
     <meta name="description" content="Quiz Game with Flask">
   </head>
   <body>
-    <h2>QUESTION {{number}} </h2>
+    <h2>QUESTION {{numbers}} </h2>
     
-    <p>{{questions[number]}}</p>
+    <p>{{questions[numbers]}}</p>
 
+    <form action ="#" method = "post" id = "page">
 
-    {%for numbers in options[number]%}
+    {%for numbers in options[numbers]%}
       <input type="radio" id="red" name="options" value="{{numbers}}">
       <label for="red">{{numbers}}</label>
     {%endfor%}
-    <a href='/questions/{{int(numbers) - 1}}'><button class="startbutton" id='startbutton'>previous</button></a>
-      <a href='/questions/{{int(numbers) + 1}}'><button class="startbutton" id='startbutton'>next</button></a>
 
+      <input type = "submit" name = "submit">
+      
+    </form>
+
+    {%if numbers > 1%}
+    <a href='/questions/{{numbers - 1}}'><button class="startbutton" id='startbutton'>previous</button></a>
+
+    {%endif%}
+
+    {%if numbers < questions|length%}
+
+      <a href='/questions/{{numbers + 1}}'><button class="startbutton" id='startbutton' onclick = "submitForm()">next</button></a>
+    {%else%}
+    <a href='/questions/results'><button class="startbutton" id='startbutton' onclick = "submitForm()">submit</button></a>
+
+    {%endif%}
+   
 
     <!-- Remove this comment and replace it with your code -->
 
