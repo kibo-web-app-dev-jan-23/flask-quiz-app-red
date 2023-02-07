@@ -2,23 +2,22 @@ from flask import Flask, render_template, request , redirect
 
 app = Flask(__name__)
 
-score = 0
-answers=[]
+
 questions = {
   1: "what is my name",
   2: "What colour were the pills Neo had to choose from in The Matrix?",
   3: "Where did truck driver Jack Burton get into Big Trouble?",
-  4:
-  "What African country would you be in if you were with Marty, Melman & Gloria?",
-  5: "What is the name of the actress who plays Abigail in The Favourite?",
-  6: "Complete the film title starring John Candy: ‘Uncle…’?",
-  7:
-  "Which capital city appears in the title of the 3rd movie The Fast and Furious franchise?",
-  8: "Arnold Schwarzenegger plays John Matrix in which 80s action movie?",
-  9: "Who directed Eyes Wide Shut starring Tom Cruise?",
-  10: "Who plays the taxi driver who escorts Cruise around in Collateral?",
-  11: "What was the name of Michael B. Jordan’s character in Black Panther?",
-  12: "Which actress starred in Bridget Jones’ Diary?"
+  # 4:
+  # "What African country would you be in if you were with Marty, Melman & Gloria?",
+  # 5: "What is the name of the actress who plays Abigail in The Favourite?",
+  # 6: "Complete the film title starring John Candy: ‘Uncle…’?",
+  # 7:
+  # "Which capital city appears in the title of the 3rd movie The Fast and Furious franchise?",
+  # 8: "Arnold Schwarzenegger plays John Matrix in which 80s action movie?",
+  # 9: "Who directed Eyes Wide Shut starring Tom Cruise?",
+  # 10: "Who plays the taxi driver who escorts Cruise around in Collateral?",
+  # 11: "What was the name of Michael B. Jordan’s character in Black Panther?",
+  # 12: "Which actress starred in Bridget Jones’ Diary?"
 }
 options = {
   1: ["Samuel", "Mercy", "Ayo", "Blessing"],
@@ -50,17 +49,8 @@ correct_answers = {
   12: "Renee Zellweger"
 }
 
-def correct_answer(user_answer, correct_ans):
-  global score
-  if match(user_answer, correct_ans):
-    score += 1
-
-
-def match(user_answer, correct_ans):
-  if user_answer == correct_ans:
-    return True
-  else:
-    return False
+score = 0
+answers=["0"]*len(questions)
 
 @app.get("/")
 def index():
@@ -72,13 +62,30 @@ def quiz_game(numbers):
   
   if request.method == "POST" :
     user_answer = request.form["options"]
-    correct_answer(user_answer, correct_answers[numbers])
-    
-  return render_template("question.html",questions=questions,numbers=numbers,options=options)
+    answers[numbers-2] = user_answer
+  
+  return render_template("question.html",questions=questions,score = score ,numbers=numbers,options=options)
   
   
-
-@app.get("/questions/results")
+@app.post("/questions/results")
 def results():
-  global score
-  return render_template("result.html", score=score, answers= answers)
+  user_answer = request.form["options"]
+  answers[len(questions)-1] = user_answer
+  user_score = match(correct_answers,answers,score)
+  return render_template("result.html", user_score=user_score, answers= answers)
+
+def match(correct_answer, answers, score):
+  i = 1
+  for answer in answers:
+    if answer == correct_answer[i]:
+      score += 1
+      i+=1
+    else:
+      i+=1
+  return score
+
+@app.get("/reset")
+def reset():
+  global answers
+  answers =[]
+  return redirect("/")
