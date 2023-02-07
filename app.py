@@ -87,5 +87,5 @@ def match(correct_answer, answers, score):
 @app.get("/reset")
 def reset():
   global answers
-  answers =[]
+  answers=["0"]*len(questions)
   return redirect("/")

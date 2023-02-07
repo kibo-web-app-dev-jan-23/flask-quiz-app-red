@@ -21,9 +21,9 @@
 
       <div class="options">
         {%if numbers < questions|length%}
-          <form action = "/questions/{{numbers + 1}}" method="post" id="page">
+          <form action = "/questions/{{numbers + 1}}" method="post" id="page" onsubmit="return validateForm()">
         {%else%}
-          <form action = "/questions/results" method="post" id="page">
+          <form action = "/questions/results" method="post" id="page" onsubmit="return validateForm()">
         {%endif%} 
 
           {%for numbers in options[numbers]%}
@@ -48,7 +48,15 @@
         </form>
       </div>
     </div>
-    {{score}}
+    <script>
+      function validateForm() {
+        let x = document.forms["page"]["options"].value;
+        if (x == "") {
+          alert("You need to select an answer");
+          return false;
+        }
+      }
+    </script>
     <!-- Remove this comment and replace it with your code -->
   </body>
 </html>
