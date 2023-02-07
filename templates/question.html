@@ -26,26 +26,30 @@
           <form action = "/questions/results" method="post" id="page" onsubmit="return validateForm()">
         {%endif%} 
 
-          {%for numbers in options[numbers]%}
-          <input type="radio" id="red" name="options" value="{{numbers}}" />
-          <label for="red">{{numbers}}</label><br />
-          {%endfor%} 
-          
-          {%if numbers > 1%}
-          <a href="/questions/{{numbers - 1}}"
-            ><button class="startbutton2" id="startbutton">previous</button></a>
+          {%for option in options_list%}
+            <input type="radio" id="red" name="options" value="{{option}}" />
+            <label for="red">{{option}}</label><br />
+          {%endfor%}
 
-          {%endif%} 
-          
-          {%if numbers < questions|length%}
-          
-            <input type="submit" value="Next"/>
-          
-          {%else%}
-          <input type="submit" />
+          </form>
+          <div id="startbutton">
+            {%if numbers > 1%}
+            <a href="/questions/{{numbers - 1}}"
+              ><button class="startbutton2" id="startbutton">previous</button></a>
 
-          {%endif%}
-        </form>
+            {%endif%} 
+            
+            
+            {%if numbers < questions|length%}
+            
+              <button class="startbutton3" id="startbutton" form = "page" type = "submit">Next</button></a>
+            
+            {%else%}
+            <button class="startbutton2" id="startbutton" form = "page" type = "submit">Submit</button></a>
+
+            {%endif%}
+          </div>
+        
       </div>
     </div>
     <script>
