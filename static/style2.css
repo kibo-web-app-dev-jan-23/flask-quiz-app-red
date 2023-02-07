@@ -37,10 +37,6 @@ html, body{
     border-style: inset;
 }
 
-/* .startbutton1{
-    padding: 10px 10px;
-} */
-
 .startbutton2, .startbutton3 {
     padding: 15px 32px;
 }
@@ -67,3 +63,8 @@ html, body{
     font-family: "Times New Roman", Times, serif; */
 
         /* gap: 0.5em; */
+
+
+    /* .startbutton1{
+    padding: 10px 10px;
+} */
