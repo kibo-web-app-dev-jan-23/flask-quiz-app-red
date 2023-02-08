@@ -20,26 +20,29 @@
       </div>
 
       <div class="options">
+        <!--determines next page based on current position in the question list -->
         {%if numbers < questions|length%}
           <form action = "/questions/{{numbers + 1}}" method="post" id="page" onsubmit="return validateForm()">
         {%else%}
           <form action = "/questions/results" method="post" id="page" onsubmit="return validateForm()">
         {%endif%} 
 
-          {%for option in options_list%}
-            <input type="radio" id="red" name="options" value="{{option}}" />
-            <label for="red">{{option}}</label><br />
-          {%endfor%}
+        <!--generates options based on option list-->
+        {%for option in options_list%}
+          <input type="radio" id="red" name="options" value="{{option}}" />
+          <label for="red">{{option}}</label><br />
+        {%endfor%}
 
-          </form>
+        </form>
           <div id="startbutton">
+            <!--checks if there's a previous page-->
             {%if numbers > 1%}
             <a href="/questions/{{numbers - 1}}"
               ><button class="startbutton2" id="startbutton">previous</button></a>
 
             {%endif%} 
             
-            
+            <!--determines button label depending on current question-->
             {%if numbers < questions|length%}
             
               <button class="startbutton3" id="startbutton" form = "page" type = "submit">Next</button></a>
@@ -52,6 +55,7 @@
         
       </div>
     </div>
+    <!--validates that an answer is selected-->
     <script>
       function validateForm() {
         let x = document.forms["page"]["options"].value;

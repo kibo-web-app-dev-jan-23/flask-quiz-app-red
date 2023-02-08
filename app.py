@@ -3,7 +3,7 @@ import random
 
 app = Flask(__name__)
 
-
+#quiz questions
 questions = {
   1: "In Beauty and the Beast, which wing of the castle is Belle forbidden from visiting?",
   2: "What colour were the pills Neo had to choose from in The Matrix?",
@@ -26,6 +26,8 @@ questions = {
   19: "Ryan Reynolds starred alongside Melissa George in which 2005 spine chiller?",
   20: "Who played the Prime Minister in Love Actually?"
 }
+
+#quiz options
 options = {
   1: ["West", "East", "North", "South"],
   2: ["Red and Blue", "Green and Black", "White and Blue", "Red and White"],
@@ -49,6 +51,7 @@ options = {
   20: ["Hugh Grant", "David MacAdam", "Oswald Mosley", "Brad Pitt"]
   }
 
+#quiz answers 
 correct_answers = {
   1: "West",
   2: "Red and Blue",
@@ -72,9 +75,13 @@ correct_answers = {
   20: "Hugh Grant"
 }
 
+#sets score to zero
 score = 0
+
+#creates a list with placeholders for user answer
 answers=["0"]*len(questions)
 
+#renders homepage template
 @app.get("/")
 def index():
   return render_template("index.html")
@@ -82,23 +89,27 @@ def index():
 
 @app.route("/questions/<int:numbers>", methods = ["GET","POST"])
 def quiz_game(numbers):
-  
+  #stores user answer in a list
   if request.method == "POST" :
     user_answer = request.form["options"]
     answers[numbers-2] = user_answer
+  #adds options to a list and shuffles options
   options_list = options[numbers]
   random.shuffle(options_list)
-  
+
   return render_template("question.html",questions=questions,numbers=numbers,options_list=options_list)
   
   
 @app.post("/questions/results")
 def results():
+  #gets answer to final question
   user_answer = request.form["options"]
   answers[len(questions)-1] = user_answer
+  #calculates user score
   user_score = match(correct_answers,answers,score)
   return render_template("result.html", user_score=user_score, answers= answers)
 
+#compares correct answer with user answer to award points 
 def match(correct_answer, answers, score):
   i = 1
   for answer in answers:
@@ -109,6 +120,7 @@ def match(correct_answer, answers, score):
       i+=1
   return score
 
+#resets user answer list to empty
 @app.get("/reset")
 def reset():
   global answers
